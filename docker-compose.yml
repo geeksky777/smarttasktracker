@@ -1,0 +1,18 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:17-alpine  # Образ PostgreSQL 17 (легковесная версия)
+    container_name: postgres_container  # Имя контейнера
+    environment:
+      POSTGRES_DB: ${DB_NAME}    # Название БД при создании
+      POSTGRES_USER: ${DB_USER}      # Имя пользователя
+      POSTGRES_PASSWORD: ${DB_PASSWORD}  # Пароль пользователя
+    ports:
+      - "5432:5432"  # Проброс порта: хост:контейнер
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Постоянное хранение данных
+    restart: unless-stopped  # Автоперезапуск
+
+volumes:
+  postgres_data:  # Имя volume для данных
