@@ -2,7 +2,6 @@ import datetime
 from sqlalchemy import DateTime, Enum, String, Text, ForeignKey, UniqueConstraint
 from app.db.base import Base
 from app.db.mixins import TimeStampMixin
-from app.models.subtask import SubTask
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.enums import Status
 
