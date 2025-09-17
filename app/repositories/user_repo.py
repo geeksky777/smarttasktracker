@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import or_, select
 from app.models.user import User
-from app.schemas.auth import UserCreate
+from app.schemas.user import UserCreate, UserUpdate
 from app.core.security import hash_password
 
 
@@ -42,3 +42,15 @@ class UserRepository:
         await self.session.commit()
         await self.session.refresh(new_user)
         return new_user
+
+    async def delete(self, current_user: User) -> None:
+        await self.session.delete(current_user)
+        await self.session.commit()
+
+    async def update(self, current_user: User, new_user_data: UserUpdate) -> User:
+        to_update = new_user_data.model_dump(exclude_unset=True)
+        for field, value in to_update.items():
+            setattr(current_user, field, value)
+        await self.session.commit()
+        await self.session.refresh(current_user)
+        return current_user

@@ -14,7 +14,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 async def get_current_user(
     token: str = Depends(oauth2_scheme),
-    sesion: AsyncSession = Depends(get_db),
+    session: AsyncSession = Depends(get_db),
 ) -> User:
     try:
         payload = decode_token(token)
@@ -31,7 +31,7 @@ async def get_current_user(
             detail="Invalid token: missing subject",
         )
 
-    repo = UserRepository(sesion)
+    repo = UserRepository(session)
     user = await repo.get_by_id(int(token_data.sub))
     if not user:
         raise HTTPException(

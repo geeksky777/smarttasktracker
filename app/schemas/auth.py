@@ -1,5 +1,5 @@
 from annotated_types import MaxLen, MinLen
-from pydantic import BaseModel, ConfigDict, EmailStr
+from pydantic import BaseModel, EmailStr
 from typing import Annotated
 
 
@@ -15,22 +15,7 @@ class TokenPayload(BaseModel):
     type: str | None = None  # "access", "refresh"
 
 
-class UserCreate(BaseModel):
-    username: Annotated[str, MinLen(2), MaxLen(50)]
-    email: EmailStr
-    password: Annotated[str, MinLen(8), MaxLen(50)]
-
-
 class UserLogin(BaseModel):
     username: Annotated[str, MinLen(2), MaxLen(50)] | None
     email: EmailStr | None
     password: Annotated[str, MinLen(8), MaxLen(50)]
-
-
-class UserRead(BaseModel):
-    id: int
-    username: str
-    email: EmailStr
-    is_active: bool
-
-    model_config = ConfigDict(from_attributes=True)
