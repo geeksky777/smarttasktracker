@@ -64,7 +64,7 @@ class TaskRepository:
         result = await self.session.scalars(q)
         return result.first()
 
-    async def delete(self, task: Task) -> bool:
+    async def delete(self, task: Task) -> None:
         await self.session.delete(task)
         await self.session.commit()
 
