@@ -8,9 +8,9 @@ from app.utils.enum_schema import Status
 
 
 class TaskCreate(BaseModel):
-    order_number: Annotated[int, Gt(0)]
+    order_number: Annotated[int, Gt(0)] | None = None
     title: Annotated[str, MaxLen(100)]
-    description: Annotated[str, MaxLen(500)] | None
+    description: Annotated[str, MaxLen(500)] | None = None
     status: Status = Status.not_completed
 
 
